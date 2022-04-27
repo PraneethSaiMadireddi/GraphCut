@@ -29,8 +29,6 @@ class GraphCut(object):
         self.overlap_zone = np.zeros((rows, cols), dtype=np.int)
         self.seams = np.zeros((rows, cols, 2), dtype=np.int)
         self.init_value_seams = np.zeros((rows, cols, 2), dtype=np.int)
-        # self.maxpixel = self.patchRows * 30
-        # self.minpixel = self.patchCols * 14
         self.border_mask = [self.imRows, 0, self.imRows, 0]
         self.index = 1
 
