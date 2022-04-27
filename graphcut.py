@@ -23,19 +23,19 @@ class GraphCut(object):
         cols += self.patchCols
         self.imRows = rows
         self.imCols = cols
-        self.old = np.zeros((rows, cols, 3), dtype=np.int)
-        self.new = np.zeros((rows, cols, 3), dtype=np.int)
-        self.mask = np.zeros((rows, cols), dtype=np.int)
-        self.overlap_zone = np.zeros((rows, cols), dtype=np.int)
-        self.seams = np.zeros((rows, cols, 2), dtype=np.int)
-        self.init_value_seams = np.zeros((rows, cols, 2), dtype=np.int)
+        self.old = np.zeros((rows, cols, 3), dtype=np.int64)
+        self.new = np.zeros((rows, cols, 3), dtype=np.int64)
+        self.mask = np.zeros((rows, cols), dtype=np.int64)
+        self.overlap_zone = np.zeros((rows, cols), dtype=np.int64)
+        self.seams = np.zeros((rows, cols, 2), dtype=np.int64)
+        self.init_value_seams = np.zeros((rows, cols, 2), dtype=np.int64)
         self.border_mask = [self.imRows, 0, self.imRows, 0]
         self.index = 1
 
     def update_mask(self, t):
         maxi = min(t[0] + self.patchRows, self.imRows)
         maxj = min(t[1] + self.patchCols, self.imCols)
-        self.mask[t[0]:maxi, t[1]:maxj] = np.ones((maxi - t[0], maxj - t[1]), dtype=np.int)
+        self.mask[t[0]:maxi, t[1]:maxj] = np.ones((maxi - t[0], maxj - t[1]), dtype=np.int64)
         if t[0] < self.border_mask[0]:
             self.border_mask[0] = t[0]
         if t[0] + self.patchRows > self.border_mask[1]:
@@ -86,7 +86,7 @@ class GraphCut(object):
         return nums
 
     def update_overlap_zone(self, t):
-        self.overlap_zone = np.zeros((self.imRows, self.imCols), dtype=np.int)
+        self.overlap_zone = np.zeros((self.imRows, self.imCols), dtype=np.int64)
         corner = [0, 0]
         self.overlapRows = self.overlapCols = 0
         first = True
@@ -146,8 +146,8 @@ class GraphCut(object):
 
     def entire_patch_matching_placement(self):
 
-        patching = np.zeros((self.realRows, self.realCols), dtype=np.float)
-        tk = np.zeros((self.realCols, self.patchRows, self.patchCols, 3), dtype=np.float)
+        patching = np.zeros((self.realRows, self.realCols), dtype=np.float64)
+        tk = np.zeros((self.realCols, self.patchRows, self.patchCols, 3), dtype=np.float64)
         msk = np.zeros((self.realCols, self.patchRows, self.patchCols))
         si = np.zeros((self.realRows, self.realCols))
         for i in range(self.realRows):
@@ -190,10 +190,10 @@ class GraphCut(object):
         nb_pixels[0] = np.sum(self.mask[t[0]:t[0] + self.patchRows, t[1]:t[1] + self.patchCols])
         g = nx.Graph()
 
-        mask_seam = np.zeros((self.overlapRows, self.overlapCols), dtype=np.int)
+        mask_seam = np.zeros((self.overlapRows, self.overlapCols), dtype=np.int64)
         num = 2
         seam_supp = 0
-        mat_num = np.zeros((self.overlapRows, self.overlapCols), dtype=np.int)
+        mat_num = np.zeros((self.overlapRows, self.overlapCols), dtype=np.int64)
 
         for i in range(self.overlapRows):
             for j in range(self.overlapCols):
@@ -331,7 +331,7 @@ class GraphCut(object):
 
         self.old = deepcopy(self.new)
         self.update_mask(t)
-        self.overlap_zone = np.zeros((self.imRows, self.imCols), dtype=np.int)
+        self.overlap_zone = np.zeros((self.imRows, self.imCols), dtype=np.int64)
         self.index += 1
 
     def patch(self):
@@ -350,7 +350,7 @@ class GraphCut(object):
         return self.new[0:self.realRows, 0:self.realCols]
 
 
-image_texture = np.array(imageio.imread(sys.argv[1]), dtype=np.int)[:, :, 0:3]
+image_texture = np.array(imageio.imread(sys.argv[1]), dtype=np.int64)[:, :, 0:3]
 graph_cut = GraphCut(image_texture, int(sys.argv[3]), int(sys.argv[4]))
 
 result = graph_cut.patch()
