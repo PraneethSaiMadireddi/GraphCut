@@ -1,3 +1,5 @@
-networkx==2.5
+matplotlib==3.5.0
 numpy==1.22.3
 imageio==2.18.0
+opencv-python==4.5.5.64
+scikit-image==0.19.2
