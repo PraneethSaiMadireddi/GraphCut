@@ -6,17 +6,17 @@ The implementation is in Python 3.
 
 Install the required Python packages using the following command:
 ```
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
-
-The `networkx` library is used for graph plotting.
 
 ## Running
 Command to generate new textures:
   ```
-  python3 graphcut.py <image_path> <generated_image_path> <height> <width>
+  python3 graphcut.py
   ```
-Example:
-  ```
-  python3 graphcut.py images/input_images/berry.gif images/generated_images/berry_new.gif 512 512
-  ```
+  
+I have saved Adjacency matrices that are generated in a separate folder for the reference.
+
+I also saved Pixels data in the pixels directory for your reference.
+
+Finally the generated image from the graphcut is saved in images/generated_images directory.
