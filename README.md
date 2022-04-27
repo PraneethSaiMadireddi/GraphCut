@@ -18,5 +18,5 @@ Command to generate new textures:
   ```
 Example:
   ```
-  python 3 graphcut.py berry.png berry_generated.png 512 512
+  python3 graphcut.py images/input_images/berry.gif images/generated_images/berry_new.gif 512 512
   ```
